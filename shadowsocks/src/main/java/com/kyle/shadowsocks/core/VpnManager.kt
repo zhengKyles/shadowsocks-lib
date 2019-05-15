@@ -23,8 +23,8 @@ import com.kyle.shadowsocks.core.utils.Key
  */
 class VpnManager private constructor() {
 
-    var state = BaseService.State.Idle
-    var activity: Activity? = null
+    private var state = BaseService.State.Idle
+    private var activity: Activity? = null
     private val handler = Handler()
     private val connection = ShadowsocksConnection(handler, true)
     private var listener: OnStatusChangeListener? = null
@@ -32,6 +32,7 @@ class VpnManager private constructor() {
         override fun stateChanged(state: BaseService.State, profileName: String?, msg: String?) {
             changeState(state)
         }
+
         override fun onServiceDisconnected() = changeState(BaseService.State.Idle)
 
         override fun onServiceConnected(service: IShadowsocksService) {
@@ -43,15 +44,16 @@ class VpnManager private constructor() {
         }
 
         override fun onBinderDied() {
-            disConnect()
+            disconnect()
             connect()
         }
     }
 
-    fun connect() {
+    private fun connect() {
         activity?.let { connection.connect(it, callback) }
     }
-    fun disConnect(){
+
+    private fun disconnect() {
         activity?.let { connection.disconnect(it) }
     }
 
@@ -72,7 +74,7 @@ class VpnManager private constructor() {
     /***
      * 开启或者关闭 自动判断
      */
-    fun start() {
+    fun run() {
         when {
             state.canStop -> Core.stopService()
             DataStore.serviceMode == Key.modeVpn -> {
@@ -85,7 +87,7 @@ class VpnManager private constructor() {
     }
 
     /***
-     * 先调用监听，后 {@link VpnManager#start}
+     * 设置状态监听
      */
     fun setOnStatusChangeListener(listener: OnStatusChangeListener) {
         this.listener = listener

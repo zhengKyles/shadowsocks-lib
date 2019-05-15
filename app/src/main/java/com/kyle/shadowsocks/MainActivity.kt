@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import com.kyle.shadowsocks.core.VpnManager
+import com.kyle.shadowsocks.core.bg.BaseService
 import com.kyle.shadowsocks.core.database.Profile
 import com.kyle.shadowsocks.core.database.ProfileManager
 import com.kyle.shadowsocks.core.preference.DataStore
@@ -30,17 +31,31 @@ class MainActivity : AppCompatActivity() {
         profile.udpdns = false//是否dns转发
 
         binding?.profile = profile
+        VpnManager.getInstance(this).setOnStatusChangeListener(object : VpnManager.OnStatusChangeListener {
+            override fun onStatusChanged(state: BaseService.State) {
+                binding?.tvStatus?.text=state.name
+            }
+        })
         binding?.btnStart?.setOnClickListener {
             DataStore.profileId = ProfileManager.createProfile(profile).id
-            VpnManager.getInstance(this).start()
+            start()
         }
         binding?.btnClose?.setOnClickListener {
-            VpnManager.getInstance(this).start()
+            start()
         }
+    }
+
+    private fun start() {
+        VpnManager.getInstance(this).run()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         VpnManager.getInstance(this).onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        VpnManager.getInstance(this).onStop()
     }
 }
