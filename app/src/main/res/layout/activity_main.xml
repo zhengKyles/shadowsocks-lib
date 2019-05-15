@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+        <variable
+            name="profile"
+            type="com.kyle.shadowsocks.core.database.Profile" />
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:text="服务器" />
+
+        <EditText
+            android:id="@+id/et_ip"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="@={profile.host}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="端口" />
+
+        <EditText
+            android:id="@+id/et_port"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:inputType="number"
+            android:text='@={profile.remotePort+""}' />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="密码" />
+
+        <EditText
+            android:id="@+id/et_pwd"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:inputType="number"
+            android:text="@={profile.password}" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="加密方式" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:enabled="false"
+            android:inputType="number"
+            android:text="@={profile.method}" />
+
+        <Button
+            android:id="@+id/btn_start"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="连接" />
+
+        <Button
+            android:id="@+id/btn_close"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="关闭" />
+
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center" />
+    </LinearLayout>
+</layout>
