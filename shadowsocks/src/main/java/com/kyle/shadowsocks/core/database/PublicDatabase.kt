@@ -27,7 +27,7 @@ import com.kyle.shadowsocks.core.Core
 import com.kyle.shadowsocks.core.database.migration.RecreateSchemaMigration
 import com.kyle.shadowsocks.core.utils.Key
 
-@Database(entities = [KeyValuePair::class], version = 3)
+@Database(entities = [KeyValuePair::class], version = 4)
 abstract class PublicDatabase : RoomDatabase() {
     companion object {
         private val instance by lazy {
