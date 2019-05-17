@@ -23,7 +23,7 @@ import com.kyle.shadowsocks.core.utils.Key
  */
 class VpnManager private constructor() {
 
-    private var state = BaseService.State.Idle
+     var state = BaseService.State.Idle
     private var activity: Activity? = null
     private val handler = Handler()
     private val connection = ShadowsocksConnection(handler, true)
