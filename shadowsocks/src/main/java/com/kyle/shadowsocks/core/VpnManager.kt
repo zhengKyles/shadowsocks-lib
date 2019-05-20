@@ -2,6 +2,7 @@ package com.kyle.shadowsocks.core
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.net.VpnService
 import android.os.DeadObjectException
@@ -24,7 +25,7 @@ import com.kyle.shadowsocks.core.utils.Key
 class VpnManager private constructor() {
 
      var state = BaseService.State.Idle
-    private var activity: Activity? = null
+    private var context: Context? = null
     private val handler = Handler()
     private val connection = ShadowsocksConnection(handler, true)
     private var listener: OnStatusChangeListener? = null
@@ -50,11 +51,11 @@ class VpnManager private constructor() {
     }
 
     private fun connect() {
-        activity?.let { connection.connect(it, callback) }
+        context?.let { connection.connect(it, callback) }
     }
 
     private fun disconnect() {
-        activity?.let { connection.disconnect(it) }
+        context?.let { connection.disconnect(it) }
     }
 
     companion object {
@@ -62,19 +63,23 @@ class VpnManager private constructor() {
         @SuppressLint("StaticFieldLeak")
         private var instance: VpnManager? = null
 
-        fun getInstance(activity: Activity): VpnManager {
+        fun getInstance(): VpnManager {
             if (instance == null) {
                 instance = VpnManager()
             }
-            instance?.activity = activity
             return instance as VpnManager
         }
+    }
+
+    fun init(context: Context){
+        this.context=context
+        connect()
     }
 
     /***
      * 开启或者关闭 自动判断
      */
-    fun run() {
+    fun run(activity:Activity) {
         when {
             state.canStop -> Core.stopService()
             DataStore.serviceMode == Key.modeVpn -> {
@@ -91,11 +96,10 @@ class VpnManager private constructor() {
      */
     fun setOnStatusChangeListener(listener: OnStatusChangeListener) {
         this.listener = listener
-        connect()
     }
 
     /***
-     * activity调用stop时调用
+     * application调用stop时调用
      */
     fun onStop() {
         connection.bandwidthTimeout = 0
