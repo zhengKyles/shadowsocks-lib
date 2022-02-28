@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-<string name="quick_toggle">"开关"</string>
+    <string name="app_name">ShadowsocksDemo</string>
+    <string name="quick_toggle">"开关"</string>
 <string name="remote_dns">"远程 DNS"</string>
 <string name="stat_summary">"上传: \t%3$s\t↑\t%1$s
 下载: \t%4$s\t↓\t%2$s"</string>
