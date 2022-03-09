@@ -36,7 +36,6 @@ class MainActivity : AppCompatActivity() {
         profile.remoteDns = "dns.google"//远程DNS
         profile.udpdns = false//是否dns转发
 
-
         binding?.profile = profile
         VpnManager.getInstance().setOnStatusChangeListener(object : VpnManager.OnStatusChangeListener {
             override fun onStatusChanged(state: BaseService.State) {
