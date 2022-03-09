@@ -1,9 +1,14 @@
 package com.kyle.shadowsocks
 
+import android.app.admin.DevicePolicyManager
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
-
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.kyle.shadowsocks.core.VpnManager
 import com.kyle.shadowsocks.core.bg.BaseService
@@ -11,6 +16,7 @@ import com.kyle.shadowsocks.core.database.Profile
 import com.kyle.shadowsocks.core.database.ProfileManager
 import com.kyle.shadowsocks.core.preference.DataStore
 import com.kyle.shadowsocks.databinding.ActivityMainBinding
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,10 +36,11 @@ class MainActivity : AppCompatActivity() {
         profile.remoteDns = "dns.google"//远程DNS
         profile.udpdns = false//是否dns转发
 
+
         binding?.profile = profile
         VpnManager.getInstance().setOnStatusChangeListener(object : VpnManager.OnStatusChangeListener {
             override fun onStatusChanged(state: BaseService.State) {
-                binding?.tvStatus?.text=state.name
+                binding?.tvStatus?.text = state.name
             }
         })
         binding?.btnStart?.setOnClickListener {
@@ -43,7 +50,10 @@ class MainActivity : AppCompatActivity() {
         binding?.btnClose?.setOnClickListener {
             start()
         }
+
+
     }
+
 
     private fun start() {
         VpnManager.getInstance().run(this)
@@ -58,4 +68,7 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         VpnManager.getInstance().onStop()
     }
+
+
+
 }

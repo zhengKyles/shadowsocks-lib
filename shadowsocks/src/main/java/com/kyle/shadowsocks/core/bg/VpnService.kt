@@ -166,9 +166,8 @@ class VpnService : BaseVpnService(), LocalDnsService.Interface {
             builder.addAddress(PRIVATE_VLAN6_CLIENT, 126)
             builder.addRoute("::", 0)
         }
-
+        val me = packageName
         if (profile.proxyApps) {
-            val me = packageName
             profile.individual.split('\n')
                     .filter { it != me }
                     .forEach {
@@ -181,6 +180,8 @@ class VpnService : BaseVpnService(), LocalDnsService.Interface {
                     }
             if (!profile.bypass) builder.addAllowedApplication(me)
         }
+
+        builder.addAllowedApplication(me)
 
         when (profile.route) {
             Acl.ALL, Acl.BYPASS_CHN, Acl.CUSTOM_RULES -> builder.addRoute("0.0.0.0", 0)
