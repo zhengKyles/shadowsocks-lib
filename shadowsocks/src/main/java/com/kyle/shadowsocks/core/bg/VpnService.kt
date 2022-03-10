@@ -179,9 +179,9 @@ class VpnService : BaseVpnService(), LocalDnsService.Interface {
                             printLog(ex)
                         }
                     }
-            if (!profile.bypass) builder.addAllowedApplication(me)
+            //if (!profile.bypass) builder.addAllowedApplication(me)
         }
-        builder.addAllowedApplication(me)
+        //builder.addAllowedApplication(me)
         when (profile.route) {
             Acl.ALL, Acl.BYPASS_CHN, Acl.CUSTOM_RULES -> builder.addRoute("0.0.0.0", 0)
             else -> {
