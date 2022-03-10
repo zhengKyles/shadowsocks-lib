@@ -8,7 +8,7 @@ android {
     defaultConfig {
         applicationId "com.kyle.shadowsocks"
         minSdkVersion rootProject.minSdkVersion
-        targetSdkVersion rootProject.sdkVersion
+        targetSdkVersion rootProject.tagSdkVersion
         versionCode rootProject.versionCode
         versionName rootProject.versionName
         dataBinding {

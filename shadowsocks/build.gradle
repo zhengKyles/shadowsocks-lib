@@ -2,17 +2,14 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
-apply plugin: 'com.novoda.bintray-release'
 
 android {
-    buildToolsVersion rootProject.buildToolsVersion
     compileSdkVersion rootProject.compileSdkVersion
-
     defaultConfig {
         minSdkVersion rootProject.minSdkVersion
-        targetSdkVersion rootProject.sdkVersion
-        versionCode rootProject.versionCode
-        versionName rootProject.versionName
+        targetSdkVersion rootProject.tagSdkVersion
+        versionCode 9
+        versionName "1.0.9"
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -23,14 +20,7 @@ android {
     sourceSets {
         androidTest.assets.srcDirs += files("$projectDir/schemas".toString())
     }
-    publish {
-        userOrg = 'kyle'      //bintray注册的用户名
-        groupId = 'com.kyle'         //compile引用时的第1部分groupId
-        artifactId = 'shadowsocks'     //compile引用时的第2部分项目名
-        publishVersion = '1.0.5'    //compile引用时的第3部分版本号
-        desc = 'This is a shadowsocks library '
-        website = 'https://github.com/zhengKyles/shadowsocksDemo'
-    }
+
 }
 
 androidExtensions {
@@ -39,6 +29,7 @@ androidExtensions {
 
 def lifecycleVersion = '2.0.0'
 def roomVersion = '2.0.0'
+def preferencexVersion = '1.0.0'
 dependencies {
     api 'com.google.android.material:material:1.1.0-alpha05'
     api "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"

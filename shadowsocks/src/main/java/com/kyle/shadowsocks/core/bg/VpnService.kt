@@ -31,9 +31,9 @@ import android.os.ParcelFileDescriptor
 import android.system.ErrnoException
 import android.system.Os
 import com.kyle.shadowsocks.core.Core
+import com.kyle.shadowsocks.core.R
 import com.kyle.shadowsocks.core.VpnRequestActivity
 import com.kyle.shadowsocks.core.acl.Acl
-import com.kyle.shadowsocks.core.R
 import com.kyle.shadowsocks.core.net.ConcurrentLocalSocketListener
 import com.kyle.shadowsocks.core.net.DefaultNetworkListener
 import com.kyle.shadowsocks.core.net.Subnet
@@ -107,9 +107,10 @@ class VpnService : BaseVpnService(), LocalDnsService.Interface {
             field = value
             if (active && Build.VERSION.SDK_INT >= 22) setUnderlyingNetworks(underlyingNetworks)
         }
-    private val underlyingNetworks get() =
-        // clearing underlyingNetworks makes Android 9+ consider the network to be metered
-        if (Build.VERSION.SDK_INT >= 28 && metered) null else underlyingNetwork?.let { arrayOf(it) }
+    private val underlyingNetworks
+        get() =
+                // clearing underlyingNetworks makes Android 9+ consider the network to be metered
+            if (Build.VERSION.SDK_INT >= 28 && metered) null else underlyingNetwork?.let { arrayOf(it) }
 
     override fun onBind(intent: Intent) = when (intent.action) {
         SERVICE_INTERFACE -> super<BaseVpnService>.onBind(intent)
@@ -178,10 +179,12 @@ class VpnService : BaseVpnService(), LocalDnsService.Interface {
                             printLog(ex)
                         }
                     }
-//            if (!profile.bypass) builder.addAllowedApplication(me)
+            if (profile.bypass) {
+                builder.addDisallowedApplication(me)
+            }
+        } else {
+            builder.addDisallowedApplication(me)
         }
-
-        builder.addAllowedApplication(me)
 
         when (profile.route) {
             Acl.ALL, Acl.BYPASS_CHN, Acl.CUSTOM_RULES -> builder.addRoute("0.0.0.0", 0)
@@ -217,6 +220,7 @@ class VpnService : BaseVpnService(), LocalDnsService.Interface {
             try {
                 sendFd(conn.fileDescriptor)
             } catch (e: ErrnoException) {
+                e.printStackTrace()
                 stopRunner(false, e.message)
             }
         })

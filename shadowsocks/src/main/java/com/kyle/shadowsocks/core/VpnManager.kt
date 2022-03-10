@@ -84,7 +84,7 @@ class VpnManager private constructor() {
             state.canStop -> Core.stopService()
             DataStore.serviceMode == Key.modeVpn -> {
                 val intent = VpnService.prepare(activity)
-                if (intent != null) activity?.startActivityForResult(intent, REQUEST_CONNECT)
+                if (intent != null) activity.startActivityForResult(intent, REQUEST_CONNECT)
                 else onActivityResult(REQUEST_CONNECT, Activity.RESULT_OK, null)
             }
             else -> Core.startService()

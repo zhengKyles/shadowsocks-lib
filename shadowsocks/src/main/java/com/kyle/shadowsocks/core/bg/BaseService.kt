@@ -25,6 +25,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.*
+import android.util.Log
 import androidx.core.content.getSystemService
 
 import com.kyle.shadowsocks.core.Core

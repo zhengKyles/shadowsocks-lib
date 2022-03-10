@@ -49,7 +49,7 @@ import androidx.core.os.bundleOf
  *&lt;/manifest&gt;</pre>
  */
 abstract class NativePluginProvider : ContentProvider() {
-    override fun getType(p0: Uri?): String = "application/x-elf"
+    override fun getType(p0: Uri): String = "application/x-elf"
 
     override fun onCreate(): Boolean = true
 
@@ -79,7 +79,7 @@ abstract class NativePluginProvider : ContentProvider() {
     open fun getExecutable(): String = throw UnsupportedOperationException()
 
     abstract fun openFile(uri: Uri?): ParcelFileDescriptor
-    override fun openFile(uri: Uri?, mode: String?): ParcelFileDescriptor {
+    override fun openFile(uri: Uri, mode: String): ParcelFileDescriptor {
         check(mode == "r")
         return openFile(uri)
     }
@@ -90,8 +90,8 @@ abstract class NativePluginProvider : ContentProvider() {
     }
 
     // Methods that should not be used
-    override fun insert(p0: Uri?, p1: ContentValues?): Uri = throw UnsupportedOperationException()
-    override fun update(p0: Uri?, p1: ContentValues?, p2: String?, p3: Array<out String>?): Int =
+    override fun insert(p0: Uri, p1: ContentValues?): Uri = throw UnsupportedOperationException()
+    override fun update(p0: Uri, values: ContentValues?, selection: String?, selectionArgs: Array<out String>?): Int =
             throw UnsupportedOperationException()
-    override fun delete(p0: Uri?, p1: String?, p2: Array<out String>?): Int = throw UnsupportedOperationException()
+    override fun delete(uri: Uri, p1: String?, p2: Array<out String>?): Int = throw UnsupportedOperationException()
 }
