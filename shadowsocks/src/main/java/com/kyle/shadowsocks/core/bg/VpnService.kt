@@ -178,7 +178,7 @@ class VpnService : BaseVpnService(), LocalDnsService.Interface {
                             printLog(ex)
                         }
                     }
-            if (!profile.bypass) builder.addAllowedApplication(me)
+//            if (!profile.bypass) builder.addAllowedApplication(me)
         }
 
         builder.addAllowedApplication(me)
