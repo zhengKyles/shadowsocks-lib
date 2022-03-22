@@ -11,6 +11,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.kyle.shadowsocks.core.VpnManager
+import com.kyle.shadowsocks.core.aidl.TrafficStats
 import com.kyle.shadowsocks.core.bg.BaseService
 import com.kyle.shadowsocks.core.database.Profile
 import com.kyle.shadowsocks.core.database.ProfileManager
@@ -44,6 +45,10 @@ class MainActivity : AppCompatActivity() {
             override fun onStatusChanged(state: BaseService.State) {
                 binding?.tvStatus?.text = state.name
             }
+
+            override fun onTrafficUpdated(profileId: Long, stats: TrafficStats) {
+
+                            }
         })
         binding?.btnStart?.setOnClickListener {
             DataStore.profileId = ProfileManager.createProfile(profile).id
