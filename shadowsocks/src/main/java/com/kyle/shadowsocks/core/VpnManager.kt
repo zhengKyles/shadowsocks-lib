@@ -44,6 +44,11 @@ class VpnManager private constructor() {
             })
         }
 
+        override fun trafficUpdated(profileId: Long, stats: TrafficStats) {
+            super.trafficUpdated(profileId, stats)
+            listener?.onTrafficUpdated(profileId, stats)
+        }
+
         override fun onBinderDied() {
             disconnect()
             connect()
@@ -71,7 +76,7 @@ class VpnManager private constructor() {
         }
     }
 
-    fun init(context: Context){
+    fun init(context: Context,callback:ShadowsocksConnection.Callback){
         this.context=context
         connect()
     }
@@ -132,6 +137,8 @@ class VpnManager private constructor() {
      */
     interface OnStatusChangeListener {
         fun onStatusChanged(state: BaseService.State)
+
+        fun onTrafficUpdated(profileId: Long, stats: TrafficStats)
     }
 
     enum class Route(name: String) {
