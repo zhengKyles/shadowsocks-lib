@@ -48,7 +48,6 @@ class VpnManager private constructor() {
             super.trafficUpdated(profileId, stats)
             listener?.onTrafficUpdated(profileId, stats)
         }
-
         override fun onBinderDied() {
             disconnect()
             connect()
@@ -56,7 +55,9 @@ class VpnManager private constructor() {
     }
 
     private fun connect() {
-        context?.let { connection.connect(it, callback) }
+        context?.let {
+            connection.connect(it, callback)
+        }
     }
 
     private fun disconnect() {
@@ -110,6 +111,9 @@ class VpnManager private constructor() {
         connection.bandwidthTimeout = 0
     }
 
+    fun onStart() {
+        connection.bandwidthTimeout = 1000
+    }
     /***
      * activity调用onActivityResult时调用
      */

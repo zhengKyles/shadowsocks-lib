@@ -74,7 +74,9 @@ class ShadowsocksConnection(private val handler: Handler = Handler(),
         }
         override fun trafficUpdated(profileId: Long, stats: TrafficStats) {
             val callback = callback ?: return
-            handler.post { callback.trafficUpdated(profileId, stats) }
+            handler.post {
+                callback.trafficUpdated(profileId, stats)
+            }
         }
         override fun trafficPersisted(profileId: Long) {
             val callback = callback ?: return
