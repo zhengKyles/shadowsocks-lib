@@ -5,8 +5,8 @@ buildscript {
     ext {
         kotlinVersion = '1.3.31'
         minSdkVersion = 21
-        tagSdkVersion = 28
-        compileSdkVersion = 28
+        tagSdkVersion = 29
+        compileSdkVersion = 29
         buildToolsVersion = '28.0.3'
         versionCode = 4070450
         versionName = '4.7.4-nightly'
@@ -36,5 +36,5 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-tasks.getByPath(":shadowsocks:javadocRelease").enabled = false
-tasks.getByPath(":shadowsocks:javadocDebug").enabled = false
+//tasks.getByPath(":shadowsocks:javadocRelease").enabled = false
+//tasks.getByPath(":shadowsocks:javadocDebug").enabled = false

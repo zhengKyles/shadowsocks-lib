@@ -23,6 +23,7 @@ package com.kyle.shadowsocks
 import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.multidex.MultiDexApplication
+import com.kyle.shadowsocks.core.BootReceiver
 import com.kyle.shadowsocks.core.Core
 import com.kyle.shadowsocks.core.VpnManager
 
@@ -30,6 +31,7 @@ class App : MultiDexApplication() {
     override fun onCreate() {
         super.onCreate()
         Core.init(this, MainActivity::class)
+        BootReceiver.enabled = true
         VpnManager.getInstance().init(this)
     }
 
