@@ -183,7 +183,7 @@ class VpnService : BaseVpnService(), LocalDnsService.Interface {
                 builder.addDisallowedApplication(me)
             }
         } else {
-            builder.addDisallowedApplication(me)
+//            builder.addDisallowedApplication(me)
         }
 
         when (profile.route) {
