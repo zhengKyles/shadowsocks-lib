@@ -36,5 +36,5 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-tasks.getByPath(":shadowsocks:javadocRelease").enabled = false
-tasks.getByPath(":shadowsocks:javadocDebug").enabled = false
+//tasks.getByPath(":shadowsocks:javadocRelease").enabled = false
+//tasks.getByPath(":shadowsocks:javadocDebug").enabled = false
