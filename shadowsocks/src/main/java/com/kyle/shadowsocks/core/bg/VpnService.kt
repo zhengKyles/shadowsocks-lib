@@ -169,21 +169,18 @@ class VpnService : BaseVpnService(), LocalDnsService.Interface {
         }
         val me = packageName
         if (profile.proxyApps) {
+            val me = packageName
             profile.individual.split('\n')
-                    .filter { it != me }
-                    .forEach {
-                        try {
-                            if (profile.bypass) builder.addDisallowedApplication(it)
-                            else builder.addAllowedApplication(it)
-                        } catch (ex: PackageManager.NameNotFoundException) {
-                            printLog(ex)
-                        }
+                .filter { it != me }
+                .forEach {
+                    try {
+                        if (profile.bypass) builder.addDisallowedApplication(it)
+                        else builder.addAllowedApplication(it)
+                    } catch (ex: PackageManager.NameNotFoundException) {
+                        printLog(ex)
                     }
-            if (profile.bypass) {
-                builder.addDisallowedApplication(me)
-            }
-        } else {
-//            builder.addDisallowedApplication(me)
+                }
+            if (!profile.bypass) builder.addAllowedApplication(me)
         }
 
         when (profile.route) {

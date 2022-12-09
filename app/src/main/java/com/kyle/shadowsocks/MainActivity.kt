@@ -17,7 +17,10 @@ import com.kyle.shadowsocks.core.bg.BaseService
 import com.kyle.shadowsocks.core.database.Profile
 import com.kyle.shadowsocks.core.database.ProfileManager
 import com.kyle.shadowsocks.core.preference.DataStore
+import com.kyle.shadowsocks.core.utils.readableMessage
 import com.kyle.shadowsocks.databinding.ActivityMainBinding
+import java.io.File
+import java.io.InputStream
 import java.net.URL
 
 
@@ -29,10 +32,6 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         var profile = Profile()
         ProfileManager.clear()
-
-        ProfileManager.getAllProfiles()?.forEach {
-            Log.e("it","it")
-        }
 
         val acl = Acl.customRules
         acl.urls.clear()
