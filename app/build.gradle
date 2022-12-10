@@ -3,14 +3,13 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    buildToolsVersion rootProject.buildToolsVersion
-    compileSdkVersion rootProject.compileSdkVersion
+    compileSdkVersion 31
     defaultConfig {
         applicationId "com.kyle.shadowsocks"
-        minSdkVersion rootProject.minSdkVersion
-        targetSdkVersion rootProject.tagSdkVersion
-        versionCode rootProject.versionCode
-        versionName rootProject.versionName
+        minSdkVersion 21
+        targetSdkVersion 31
+        versionCode 1
+        versionName "1.0"
         dataBinding {
             enabled true
         }

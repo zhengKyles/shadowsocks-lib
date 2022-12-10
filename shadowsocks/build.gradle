@@ -5,12 +5,12 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'com.novoda.bintray-release'
 
 android {
-    compileSdkVersion rootProject.compileSdkVersion
+    compileSdkVersion 30
     defaultConfig {
-        minSdkVersion rootProject.minSdkVersion
-        targetSdkVersion rootProject.tagSdkVersion
-        versionCode 12
-        versionName "1.0.12"
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 13
+        versionName "1.0.13"
 
         javaCompileOptions {
             annotationProcessorOptions {
