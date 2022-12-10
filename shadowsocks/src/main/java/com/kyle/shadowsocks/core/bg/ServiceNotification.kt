@@ -23,6 +23,7 @@ package com.kyle.shadowsocks.core.bg
 import android.app.KeyguardManager
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.app.Service
 import android.content.Context
 import android.content.Intent
@@ -82,8 +83,13 @@ class ServiceNotification(private val service: BaseService.Interface, profileNam
 
     init {
         service as Context
-        if (Build.VERSION.SDK_INT < 24) builder.addAction(R.drawable.ic_navigation_close,
+        if (Build.VERSION.SDK_INT < 24) if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            builder.addAction(R.drawable.ic_navigation_close,
+                    service.getString(R.string.stop), PendingIntent.getBroadcast(service, 0, Intent(Action.CLOSE), FLAG_IMMUTABLE))
+        }else{
+            builder.addAction(R.drawable.ic_navigation_close,
                 service.getString(R.string.stop), PendingIntent.getBroadcast(service, 0, Intent(Action.CLOSE), 0))
+        }
         update(if (service.getSystemService<PowerManager>()?.isInteractive != false)
             Intent.ACTION_SCREEN_ON else Intent.ACTION_SCREEN_OFF, true)
         service.registerReceiver(lockReceiver, IntentFilter().apply {

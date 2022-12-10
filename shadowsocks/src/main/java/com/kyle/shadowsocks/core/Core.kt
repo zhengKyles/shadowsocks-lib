@@ -24,6 +24,7 @@ import android.app.Application
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.app.admin.DevicePolicyManager
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -84,8 +85,13 @@ object Core {
     fun init(app: Application, configureClass: KClass<out Any>) {
         Core.app = app
         configureIntent = {
-            PendingIntent.getActivity(it, 0, Intent(it, configureClass.java)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                PendingIntent.getActivity(it, 0, Intent(it, configureClass.java)
+                        .setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), FLAG_IMMUTABLE)
+            } else {
+                PendingIntent.getActivity(it, 0, Intent(it, configureClass.java)
                     .setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT), 0)
+            }
         }
 
         if (Build.VERSION.SDK_INT >= 24) {  // migrate old files
@@ -99,7 +105,7 @@ object Core {
 
         // overhead of debug mode is minimal: https://github.com/Kotlin/kotlinx.coroutines/blob/f528898/docs/debugging.md#debug-mode
         System.setProperty(DEBUG_PROPERTY_NAME, DEBUG_PROPERTY_VALUE_ON)
-        WorkManager.initialize(deviceStorage, Configuration.Builder().build())
+//        WorkManager.initialize(deviceStorage, Configuration.Builder().build())
 
         // handle data restored/crash
         if (Build.VERSION.SDK_INT >= 24 && DataStore.directBootAware &&
