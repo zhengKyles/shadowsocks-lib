@@ -55,10 +55,11 @@ class MainActivity : AppCompatActivity() {
 
         binding?.profile = profile
         VpnManager.getInstance().setOnStatusChangeListener(object : VpnManager.OnStatusChangeListener {
-            override fun onStatusChanged(state: BaseService.State) {
+            override fun onStatusChanged(state: BaseService.State, msg: String) {
                 binding?.tvStatus?.text = state.name
-                Log.e("",state.name)
+                Log.e("onStatusChanged","status:"+state.name+"   msg:"+msg)
             }
+
 
             override fun onTrafficUpdated(profileId: Long, stats: TrafficStats) {
 

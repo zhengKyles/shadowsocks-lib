@@ -31,17 +31,17 @@ class VpnManager private constructor() {
     private var listener: OnStatusChangeListener? = null
     private val callback: ShadowsocksConnection.Callback = object : ShadowsocksConnection.Callback {
         override fun stateChanged(state: BaseService.State, profileName: String?, msg: String?) {
-            changeState(state)
+            changeState(state,msg?:"")
         }
 
-        override fun onServiceDisconnected() = changeState(BaseService.State.Idle)
+        override fun onServiceDisconnected() = changeState(BaseService.State.Idle,"onServiceDisconnected")
 
         override fun onServiceConnected(service: IShadowsocksService) {
             changeState(try {
                 BaseService.State.values()[service.state]
             } catch (_: DeadObjectException) {
                 BaseService.State.Idle
-            })
+            },"onServiceConnected")
         }
 
         override fun trafficUpdated(profileId: Long, stats: TrafficStats) {
@@ -131,16 +131,16 @@ class VpnManager private constructor() {
     /***
      * 改变当前状态
      */
-    private fun changeState(state: BaseService.State) {
+    private fun changeState(state: BaseService.State,msg:String) {
         this.state = state
-        this.listener?.onStatusChanged(state)
+        this.listener?.onStatusChanged(state,msg)
     }
 
     /***
      * 状态改变监听器
      */
     interface OnStatusChangeListener {
-        fun onStatusChanged(state: BaseService.State)
+        fun onStatusChanged(state: BaseService.State,msg:String)
 
         fun onTrafficUpdated(profileId: Long, stats: TrafficStats)
     }
