@@ -67,9 +67,10 @@
             android:theme="@style/Theme.AppCompat.Translucent" />
 
         <receiver
-            android:name=".BootReceiver"
+            android:name="com.kyle.shadowsocks.core.BootReceiver"
             android:directBootAware="true"
             android:enabled="false"
+            android:exported="true"
             android:process=":bg">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

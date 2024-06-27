@@ -10,7 +10,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 14
-        versionName "1.0.14"
+        versionName "1.1.0"
 
         javaCompileOptions {
             annotationProcessorOptions {
@@ -50,7 +50,8 @@ dependencies {
     api "com.takisoft.preferencex:preferencex:$preferencexVersion"
     api 'dnsjava:dnsjava:2.1.8'
     api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.0'
-    api 'org.connectbot.jsocks:jsocks:1.0.0'
+    implementation files('libs/jsocks-1.0.0.jar')
+//    api 'org.connectbot.jsocks:jsocks:1.0.0'
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycleVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
 }
