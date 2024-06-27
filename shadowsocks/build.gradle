@@ -47,11 +47,12 @@ dependencies {
     api 'androidx.core:core-ktx:1.0.1'
     api "androidx.room:room-runtime:$roomVersion"
     api 'androidx.work:work-runtime-ktx:2.0.1'
-    api "com.takisoft.preferencex:preferencex:$preferencexVersion"
-    api 'dnsjava:dnsjava:2.1.8'
+//    api "com.takisoft.preferencex:preferencex:$preferencexVersion"
+//    api 'dnsjava:dnsjava:2.1.8'
     api 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.0'
-    implementation files('libs/jsocks-1.0.0.jar')
 //    api 'org.connectbot.jsocks:jsocks:1.0.0'
     kapt "androidx.lifecycle:lifecycle-compiler:$lifecycleVersion"
     kapt "androidx.room:room-compiler:$roomVersion"
+    implementation fileTree(include: ['*.jar','*.aar'], dir: 'libs')
+
 }
