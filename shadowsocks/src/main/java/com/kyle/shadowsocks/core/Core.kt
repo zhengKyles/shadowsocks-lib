@@ -56,6 +56,7 @@ import kotlin.reflect.KClass
 object Core {
     const val TAG = "Core"
 
+
     lateinit var app: Application
     lateinit var configureIntent: (Context) -> PendingIntent
     val packageInfo: PackageInfo by lazy { getPackageInfo(app.packageName) }
