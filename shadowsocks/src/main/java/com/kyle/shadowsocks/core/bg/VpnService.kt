@@ -21,6 +21,8 @@
 package com.kyle.shadowsocks.core.bg
 
 import android.app.Service
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.LocalSocket
@@ -30,6 +32,7 @@ import android.os.Build
 import android.os.ParcelFileDescriptor
 import android.system.ErrnoException
 import android.system.Os
+import android.widget.Toast
 import com.kyle.shadowsocks.core.Core
 import com.kyle.shadowsocks.core.R
 import com.kyle.shadowsocks.core.VpnRequestActivity
@@ -155,6 +158,10 @@ class VpnService : BaseVpnService(), LocalDnsService.Interface {
     }
 
     private suspend fun startVpn(): FileDescriptor {
+        val cm = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+        // 将文本内容放到系统剪贴板里。
+        cm.setPrimaryClip(ClipData.newPlainText(null, data.proxy!!.profile.toString()))
+        Toast.makeText(this,"shadowsocks配置信息已复制到剪贴板", Toast.LENGTH_LONG).show()
         val profile = data.proxy!!.profile
         val builder = Builder()
                 .setConfigureIntent(Core.configureIntent(this))
