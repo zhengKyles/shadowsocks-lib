@@ -161,7 +161,7 @@ class VpnService : BaseVpnService(), LocalDnsService.Interface {
         val cm = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
         // 将文本内容放到系统剪贴板里。
         cm.setPrimaryClip(ClipData.newPlainText(null, data.proxy!!.profile.toString()))
-        Toast.makeText(this,"shadowsocks配置信息已复制到剪贴板", Toast.LENGTH_LONG).show()
+        Toast.makeText(this,"配置信息已复制到剪贴板", Toast.LENGTH_LONG).show()
         val profile = data.proxy!!.profile
         val builder = Builder()
                 .setConfigureIntent(Core.configureIntent(this))

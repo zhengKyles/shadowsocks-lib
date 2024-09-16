@@ -7,28 +7,28 @@ buildscript {
     }
     repositories {
         google()
-        jcenter()
-        
+        mavenCentral()
+        maven { url "https://jitpack.io" }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.4.0'
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.21.0'
         classpath 'com.vanniktech:gradle-maven-publish-plugin:0.8.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-        classpath 'com.novoda:bintray-release:+'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
     }
 }
 
 allprojects {
     repositories {
         google()
-        jcenter()
-        
+        mavenCentral()
+        maven { url "https://jitpack.io" }
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
-tasks.getByPath(":shadowsocks:javadocRelease").enabled = false
-tasks.getByPath(":shadowsocks:javadocDebug").enabled = false
+//tasks.getByPath(":shadowsocks:javadocRelease").enabled = false
+//tasks.getByPath(":shadowsocks:javadocDebug").enabled = false
