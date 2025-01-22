@@ -28,6 +28,8 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_CONNECTED_DEVICE
+import android.content.pm.ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK
 import android.os.Build
 import android.os.PowerManager
 import android.text.format.Formatter
@@ -35,6 +37,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.getSystemService
 import com.kyle.shadowsocks.core.Core
+import com.kyle.shadowsocks.core.Core.RECEIVER_WHICH
 import com.kyle.shadowsocks.core.aidl.IShadowsocksServiceCallback
 import com.kyle.shadowsocks.core.aidl.TrafficStats
 import com.kyle.shadowsocks.core.R
@@ -92,11 +95,19 @@ class ServiceNotification(private val service: BaseService.Interface, profileNam
         }
         update(if (service.getSystemService<PowerManager>()?.isInteractive != false)
             Intent.ACTION_SCREEN_ON else Intent.ACTION_SCREEN_OFF, true)
-        service.registerReceiver(lockReceiver, IntentFilter().apply {
-            addAction(Intent.ACTION_SCREEN_ON)
-            addAction(Intent.ACTION_SCREEN_OFF)
-            if (visible && Build.VERSION.SDK_INT < 26) addAction(Intent.ACTION_USER_PRESENT)
-        })
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            service.registerReceiver(lockReceiver, IntentFilter().apply {
+                addAction(Intent.ACTION_SCREEN_ON)
+                addAction(Intent.ACTION_SCREEN_OFF)
+                if (visible && Build.VERSION.SDK_INT < 26) addAction(Intent.ACTION_USER_PRESENT)
+            },RECEIVER_WHICH)
+        }else{
+            service.registerReceiver(lockReceiver, IntentFilter().apply {
+                addAction(Intent.ACTION_SCREEN_ON)
+                addAction(Intent.ACTION_SCREEN_OFF)
+                if (visible && Build.VERSION.SDK_INT < 26) addAction(Intent.ACTION_USER_PRESENT)
+            })
+        }
     }
 
     private fun update(action: String?, forceShow: Boolean = false) {
@@ -130,7 +141,11 @@ class ServiceNotification(private val service: BaseService.Interface, profileNam
         } else if (forceShow) show()
     }
 
-    private fun show() = (service as Service).startForeground(1, builder.build())
+    private fun show() = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        (service as Service).startForeground(1, builder.build(),FOREGROUND_SERVICE_TYPE_CONNECTED_DEVICE)
+    } else {
+        (service as Service).startForeground(1, builder.build())
+    }
 
     fun destroy() {
         (service as Service).unregisterReceiver(lockReceiver)

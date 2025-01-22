@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Build
 import com.kyle.shadowsocks.core.Core
 import com.kyle.shadowsocks.core.Core.app
 import com.kyle.shadowsocks.core.bg.BaseService
@@ -48,7 +49,11 @@ object DirectBoot : BroadcastReceiver() {
 
     fun listenForUnlock() {
         if (registered) return
-        app.registerReceiver(this, IntentFilter(Intent.ACTION_BOOT_COMPLETED))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            app.registerReceiver(this, IntentFilter(Intent.ACTION_BOOT_COMPLETED),2)
+        }else{
+            app.registerReceiver(this, IntentFilter(Intent.ACTION_BOOT_COMPLETED))
+        }
         registered = true
     }
     override fun onReceive(context: Context, intent: Intent) {

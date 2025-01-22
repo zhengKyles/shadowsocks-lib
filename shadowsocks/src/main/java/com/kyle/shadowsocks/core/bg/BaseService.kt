@@ -20,6 +20,7 @@
 
 package com.kyle.shadowsocks.core.bg
 
+import android.annotation.SuppressLint
 import android.app.Service
 import android.content.Context
 import android.content.Intent
@@ -289,6 +290,7 @@ object BaseService {
         suspend fun resolver(host: String) = InetAddress.getAllByName(host)
         suspend fun openConnection(url: URL) = url.openConnection()
 
+        @SuppressLint("UnspecifiedRegisterReceiverFlag")
         fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
             val data = data
             if (data.state != State.Stopped) return Service.START_NOT_STICKY
@@ -307,11 +309,26 @@ object BaseService {
             data.udpFallback = if (fallback == null) null else ProxyInstance(fallback, profile.route)
 
             if (!data.closeReceiverRegistered) {
-                registerReceiver(data.closeReceiver, IntentFilter().apply {
-                    addAction(Action.RELOAD)
-                    addAction(Intent.ACTION_SHUTDOWN)
-                    addAction(Action.CLOSE)
-                })
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    registerReceiver(
+                        data.closeReceiver,
+                        IntentFilter().apply {
+                            addAction(Action.RELOAD)
+                            addAction(Intent.ACTION_SHUTDOWN)
+                            addAction(Action.CLOSE)
+                        },
+                        2
+                    )
+                }else{
+                    registerReceiver(
+                        data.closeReceiver,
+                        IntentFilter().apply {
+                            addAction(Action.RELOAD)
+                            addAction(Intent.ACTION_SHUTDOWN)
+                            addAction(Action.CLOSE)
+                        }
+                    )
+                }
                 data.closeReceiverRegistered = true
             }
 

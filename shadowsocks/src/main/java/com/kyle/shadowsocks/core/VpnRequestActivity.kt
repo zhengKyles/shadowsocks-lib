@@ -25,10 +25,12 @@ import android.content.BroadcastReceiver
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.VpnService
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.getSystemService
+import com.kyle.shadowsocks.core.Core.RECEIVER_WHICH
 
 import com.kyle.shadowsocks.core.preference.DataStore
 import com.kyle.shadowsocks.core.utils.Key
@@ -50,7 +52,11 @@ class VpnRequestActivity : AppCompatActivity() {
         }
         if (getSystemService<KeyguardManager>()!!.isKeyguardLocked) {
             receiver = broadcastReceiver { _, _ -> request() }
-            registerReceiver(receiver, IntentFilter(Intent.ACTION_USER_PRESENT))
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                registerReceiver(receiver, IntentFilter(Intent.ACTION_USER_PRESENT),RECEIVER_WHICH)
+            }else{
+                registerReceiver(receiver, IntentFilter(Intent.ACTION_USER_PRESENT))
+            }
         } else request()
     }
 

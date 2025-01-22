@@ -57,6 +57,8 @@ object Core {
     const val TAG = "Core"
 
 
+    var RECEIVER_WHICH=2
+
     lateinit var app: Application
     lateinit var configureIntent: (Context) -> PendingIntent
     val packageInfo: PackageInfo by lazy { getPackageInfo(app.packageName) }
@@ -150,11 +152,19 @@ object Core {
 
     fun listenForPackageChanges(onetime: Boolean = true, callback: () -> Unit) = object : BroadcastReceiver() {
         init {
-            app.registerReceiver(this, IntentFilter().apply {
-                addAction(Intent.ACTION_PACKAGE_ADDED)
-                addAction(Intent.ACTION_PACKAGE_REMOVED)
-                addDataScheme("package")
-            })
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                app.registerReceiver(this, IntentFilter().apply {
+                    addAction(Intent.ACTION_PACKAGE_ADDED)
+                    addAction(Intent.ACTION_PACKAGE_REMOVED)
+                    addDataScheme("package")
+                },RECEIVER_WHICH)
+            }else{
+                app.registerReceiver(this, IntentFilter().apply {
+                    addAction(Intent.ACTION_PACKAGE_ADDED)
+                    addAction(Intent.ACTION_PACKAGE_REMOVED)
+                    addDataScheme("package")
+                })
+            }
         }
 
         override fun onReceive(context: Context, intent: Intent) {
