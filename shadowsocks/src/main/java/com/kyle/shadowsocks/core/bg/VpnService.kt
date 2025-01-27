@@ -158,10 +158,10 @@ class VpnService : BaseVpnService(), LocalDnsService.Interface {
     }
 
     private suspend fun startVpn(): FileDescriptor {
-        val cm = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
-        // 将文本内容放到系统剪贴板里。
-        cm.setPrimaryClip(ClipData.newPlainText(null, data.proxy!!.profile.toString()))
-        Toast.makeText(this,"配置信息已复制到剪贴板", Toast.LENGTH_LONG).show()
+//        val cm = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+//        // 将文本内容放到系统剪贴板里。
+//        cm.setPrimaryClip(ClipData.newPlainText(null, data.proxy!!.profile.toString()))
+//        Toast.makeText(this,"配置信息已复制到剪贴板", Toast.LENGTH_LONG).show()
         val profile = data.proxy!!.profile
         val builder = Builder()
                 .setConfigureIntent(Core.configureIntent(this))
