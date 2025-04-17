@@ -45,6 +45,6 @@ class BootReceiver : BroadcastReceiver() {
             Intent.ACTION_LOCKED_BOOT_COMPLETED -> true // constant will be folded so no need to do version checks
             else -> return
         }
-        if (DataStore.directBootAware == locked) Core.startService()
+        // if (DataStore.directBootAware == locked) Core.startService()
     }
 }
