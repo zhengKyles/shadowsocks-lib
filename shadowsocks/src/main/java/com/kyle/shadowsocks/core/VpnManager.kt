@@ -79,7 +79,7 @@ class VpnManager private constructor() {
 
     fun init(context: Context){
         this.context=context
-//        connect()
+       connect()s
     }
 
     /***
